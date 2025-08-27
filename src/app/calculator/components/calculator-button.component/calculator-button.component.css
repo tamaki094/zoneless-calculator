@@ -1,0 +1,6 @@
+
+:host(.pressed) button {
+  background-color: #4338ca; /* indigo-700 */
+  opacity: 0.4;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}

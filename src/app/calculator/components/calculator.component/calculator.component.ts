@@ -1,5 +1,6 @@
-import { Component, HostListener, viewChildren } from '@angular/core';
+import { Component, computed, HostListener, inject, viewChildren } from '@angular/core';
 import { CalculatorButtonComponent } from '../calculator-button.component/calculator-button.component';
+import { CalculatorService } from '@/calculator/services/calculator-service';
 
 @Component({
   selector: 'calculator',
@@ -12,10 +13,21 @@ import { CalculatorButtonComponent } from '../calculator-button.component/calcul
 })
 export class CalculatorComponent {
 
+  private calculatorService = inject(CalculatorService);
   public calculatorButtons = viewChildren(CalculatorButtonComponent)
+
+  // get resultText(){
+  //   return this.calculatorService.resultText;
+  // }
+
+  public reusltText = computed(() => this.calculatorService.resultText());
+  public subResultText = computed(() => this.calculatorService.subResultText());
+  public lastOperator = computed(() => this.calculatorService.lastOperator());
+
 
   onClickButton(key : string){
     console.log({ key })
+    this.calculatorService.constructNumber(key);
   }
 
   // @HostListener('document:keyup', ['$event'])
@@ -25,7 +37,7 @@ export class CalculatorComponent {
     const keyEquivalents : Record<string, string>  = {
       Escape : 'C',
       Clear : 'C',
-      '*' : 'X',
+      X : '*',
       '/' : '÷',
       Enter : '=',
       'c' : 'C'
